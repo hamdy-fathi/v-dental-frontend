@@ -1,0 +1,36 @@
+{
+  "name": "v-dental-clinics",
+  "version": "1.0.0",
+  "description": "Dental Clinic Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build-css": "sass assets/scss/main.scss assets/css/style.css",
+    "watch-css": "sass --watch assets/scss/main.scss:assets/css/style.css"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "lucide-react": "^0.451.0",
+    "next": "^16.1.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.30",
+    "@types/react": "18.3.27",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "sass": "^1.69.0",
+    "tailwindcss": "^3.4.12",
+    "typescript": "5.9.3"
+  }
+}

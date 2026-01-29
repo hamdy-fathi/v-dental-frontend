@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+iframe,
+svg,
+video {
+  max-width: 100%;
+}
+
+.page-wraper,
+.page-content {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.hero-banner.style-2 .smile img {
+  position: absolute;
+  bottom: -30px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+  margin: 1.5rem 0 0.75rem;
+  font-weight: 600;
+  color: #2f3c2b;
+}
+
+.blog-content p {
+  margin: 0 0 1rem;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin: 0 0 1rem 1.25rem;
+  padding: 0;
+}
+
+.blog-content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-content br {
+  display: none;
+}
+
