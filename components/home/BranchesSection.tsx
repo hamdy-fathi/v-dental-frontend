@@ -19,15 +19,15 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
             return (
               <div key={`${iframeSrc}-${index}`} className="overflow-hidden rounded-3xl border border-[#E5E7E0] bg-white shadow-sm">
                 {iframeSrc && (
-                  <iframe
-                    src={iframeSrc}
-                    width="600"
-                    height="450"
-                    className="h-72 w-full border-0"
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
+                  <div className="w-full overflow-hidden bg-white">
+                    <iframe
+                      src={iframeSrc}
+                      className="h-full w-full border-0 aspect-[4/3] sm:aspect-[16/10]"
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                  </div>
                 )}
                 <div className="grid gap-6 p-6 sm:grid-cols-2">
                   <div className="flex items-start gap-3">
