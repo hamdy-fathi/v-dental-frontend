@@ -36,6 +36,10 @@ const translations: Record<Language, Record<string, string>> = {
     "blogs.category.tag": "Category",
     "blogs.category.subtitle": "Explore the latest articles in this category.",
     "blogs.category.empty": "No blogs are available for this category right now."
+    ,
+    "about.hero.tag": "About",
+    "about.hero.title": "About V Dental Clinics",
+    "about.hero.subtitle": "Experience modern dentistry focused on precision, comfort, and long-lasting results."
   },
   ar: {
     "nav.home": "الرئيسية",
@@ -71,7 +75,10 @@ const translations: Record<Language, Record<string, string>> = {
     "blogs.related.empty": "لا توجد مقالات ذات صلة.",
     "blogs.category.tag": "تصنيف",
     "blogs.category.subtitle": "استكشف أحدث المقالات في هذا التصنيف.",
-    "blogs.category.empty": "لا توجد مقالات متاحة لهذا التصنيف حالياً."
+    "blogs.category.empty": "لا توجد مقالات متاحة لهذا التصنيف حالياً.",
+    "about.hero.tag": "عنّا",
+    "about.hero.title": "عن عيادات ڤي دينتال",
+    "about.hero.subtitle": "اختبر طب الأسنان الحديث المبني على الدقة والراحة والنتائج طويلة الأمد."
   },
 };
 

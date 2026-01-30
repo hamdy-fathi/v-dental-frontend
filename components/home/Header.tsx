@@ -51,6 +51,8 @@ export default function HomeHeader({
     return null;
   };
 
+  const safePathname = pathname ?? "/";
+
   const withLanguage = (href: string) => {
     if (!href.startsWith("/")) return href;
     const separator = href.includes("?") ? "&" : "?";
@@ -64,10 +66,10 @@ export default function HomeHeader({
 
     const params = new URLSearchParams(searchParams?.toString());
     params.set("lang", nextLanguage);
-    const query = params.toString();
-    router.push(query ? `${pathname}?${query}` : pathname);
+      const query = params.toString();
+      router.push(query ? `${safePathname}?${query}` : safePathname);
     },
-    [pathname, router, searchParams]
+    [router, safePathname, searchParams]
   );
 
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function HomeHeader({
 
   useEffect(() => {
     const saved = normalizeLanguage(typeof window !== "undefined" ? localStorage.getItem("language") : null);
-    const urlLanguage = normalizeLanguage(searchParams?.get("lang"));
+    const urlLanguage = normalizeLanguage(searchParams?.get("lang") ?? null);
 
     if (!urlLanguage && saved && saved !== activeLanguage) {
       syncLanguage(saved);

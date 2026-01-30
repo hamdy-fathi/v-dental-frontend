@@ -1,13 +1,24 @@
 import { AboutSection, AboutServicesSection, FloatingActions, HomeFooter, HomeHeader, WhyChooseSection } from "@/components/home";
-import { apiImageUrl, fetchUnifiedData, type UnifiedData } from "@/lib/unified-data";
+import LanguageClientInit from "@/components/LanguageClientInit";
+import { apiImageUrl, fetchUnifiedData, type Language, type UnifiedData } from "@/lib/unified-data";
 import type { FeatureItem } from "@/components/home/types";
 
 export const revalidate = 300;
 
-export default async function AboutPage() {
+type AboutPageProps = {
+  searchParams?: Promise<{ lang?: string }>;
+};
+
+function normalizeLanguage(value?: string): Language {
+  return value === "ar" ? "ar" : "en";
+}
+
+export default async function AboutPage({ searchParams }: AboutPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const language = normalizeLanguage(resolvedSearchParams?.lang);
   let data: UnifiedData;
   try {
-    data = await fetchUnifiedData("en");
+    data = await fetchUnifiedData(language);
   } catch (error) {
     data = {
       generalSettings: null,
@@ -89,13 +100,25 @@ export default async function AboutPage() {
 
   return (
     <div className="page-wraper">
-      <HomeHeader phone={phone} email={email} instagramUrl={instagramUrl} facebookUrl={facebookUrl} whatsappUrl={whatsappUrl} />
+      <LanguageClientInit language={language} />
+      <HomeHeader
+        phone={phone}
+        email={email}
+        instagramUrl={instagramUrl}
+        facebookUrl={facebookUrl}
+        whatsappUrl={whatsappUrl}
+        language={language}
+      />
       <main className="page-content pt-32">
         <section className="bg-[#5f724f] py-14">
           <div className="container text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white">About</p>
-            <h1 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">About V Dental Clinics</h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-white">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white" data-translate="about.hero.tag">
+              About
+            </p>
+            <h1 className="mt-4 text-3xl font-semibold text-white sm:text-4xl" data-translate="about.hero.title">
+              About V Dental Clinics
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-base text-white" data-translate="about.hero.subtitle">
               Experience modern dentistry focused on precision, comfort, and long-lasting results.
             </p>
           </div>
