@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FloatingActions, HomeFooter, HomeHeader } from "@/components/home";
 import LanguageClientInit from "@/components/LanguageClientInit";
+import TransitionLink from "@/components/TransitionLink";
 import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
 const BLOG_FILTER_URL = "http://92.113.31.86/api/v1/blog/filter";
@@ -137,9 +138,9 @@ export default async function BlogCategoryPage({ params, searchParams }: BlogCat
       <main className="page-content pt-32">
         <section className="bg-[#5f724f] py-14">
           <div className="container text-center">
-            <Link href={withLanguage("/blogs", language)} className="text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            <TransitionLink href={withLanguage("/blogs", language)} className="text-xs font-semibold uppercase tracking-[0.2em] text-white">
               <span data-translate="blogs.back">Back to blogs</span>
-            </Link>
+            </TransitionLink>
             <div className="mt-6">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white" data-translate="blogs.category.tag">
                 Category
@@ -177,7 +178,7 @@ export default async function BlogCategoryPage({ params, searchParams }: BlogCat
                     blog.categories?.map((category) => selectByLanguage(category.content, languageId)?.name).filter(Boolean) ?? [];
 
                   return (
-                    <Link
+                    <TransitionLink
                       key={blog.id ?? `${blog.slug}-${title}`}
                       href={blog.slug ? withLanguage(`/blogs/${blog.slug}`, language) : withLanguage("/blogs", language)}
                       className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#E5E7E0] bg-white shadow-sm transition-transform duration-200 hover:-translate-y-1"
@@ -205,7 +206,7 @@ export default async function BlogCategoryPage({ params, searchParams }: BlogCat
                           <span>{dateLabel}</span>
                         </div>
                       </div>
-                    </Link>
+                    </TransitionLink>
                   );
                 })
               )}

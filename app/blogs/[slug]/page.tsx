@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FloatingActions, HomeFooter, HomeHeader } from "@/components/home";
 import LanguageClientInit from "@/components/LanguageClientInit";
+import TransitionLink from "@/components/TransitionLink";
 import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
 const BLOG_DETAIL_URL = "http://92.113.31.86/api/v1/blog/by-slug";
@@ -150,9 +151,9 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
       <main className="page-content pt-32">
         <section className="bg-[#5f724f] py-12">
           <div className="container">
-            <Link href={withLanguage("/blogs", language)} className="text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            <TransitionLink href={withLanguage("/blogs", language)} className="text-xs font-semibold uppercase tracking-[0.2em] text-white">
               <span data-translate="blogs.back">Back to blogs</span>
-            </Link>
+            </TransitionLink>
             <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white" data-translate="blogs.detail.tag">
@@ -166,13 +167,13 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
                 {categories.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#5f724f]">
                     {categories.map((category) => (
-                      <Link
+                      <TransitionLink
                         key={`${category.slug}-${category.name}`}
                         href={category.slug ? withLanguage(`/blogs/category/${category.slug}`, language) : withLanguage("/blogs", language)}
                         className="rounded-full bg-[#F6F4E5] px-3 py-1 transition-colors hover:bg-white"
                       >
                         {category.name}
-                      </Link>
+                      </TransitionLink>
                     ))}
                   </div>
                 )}
@@ -223,7 +224,7 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
                           const relatedTitle = relatedContent?.title ?? "Related blog";
                           const relatedImage = buildBlogImageUrl(related.thumb) ?? "/images/blog/small/img1.webp";
                           return (
-                            <Link
+                            <TransitionLink
                               key={related.id ?? related.slug ?? relatedTitle}
                               href={related.slug ? withLanguage(`/blogs/${related.slug}`, language) : withLanguage("/blogs", language)}
                               className="flex flex-col gap-3 rounded-2xl border border-transparent p-2 transition-colors hover:border-[#E5E7E0]"
@@ -237,7 +238,7 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
                                   {formatDate(related.createdAt)}
                                 </p>
                               </div>
-                            </Link>
+                            </TransitionLink>
                           );
                         })}
                       </div>

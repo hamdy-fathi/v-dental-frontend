@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import type { Language } from "@/lib/unified-data";
 import { applyLanguage } from "@/lib/language-client";
+import TransitionLink from "@/components/TransitionLink";
 
 type HomeHeaderProps = {
   phone: string;
@@ -226,9 +227,9 @@ export default function HomeHeader({
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-white/20 p-6">
-            <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              <TransitionLink href={withLanguage("/")} className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
               <Image src="/svg/logo-light.svg" alt="V Dental Clinics" width={200} height={60} className="h-12 w-auto" priority />
-            </Link>
+              </TransitionLink>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white shadow-sm transition-colors hover:bg-white/20 active:scale-95"
@@ -254,7 +255,7 @@ export default function HomeHeader({
                     <span>▾</span>
                   </button>
                 ) : (
-                  <Link
+                  <TransitionLink
                     key={item.label}
                     href={withLanguage(item.href)}
                     className="rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.08em] transition-colors hover:bg-white/15 text-white/90 hover:text-white"
@@ -264,7 +265,7 @@ export default function HomeHeader({
                     }}
                   >
                     <span data-translate={item.translateKey}>{item.label}</span>
-                  </Link>
+                  </TransitionLink>
                 )
               )}
             </div>
@@ -369,11 +370,11 @@ export default function HomeHeader({
         >
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
             <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center">
+              <TransitionLink href={withLanguage("/")} className="flex items-center">
                 <div className="flex items-center">
                   <Image src="/svg/logo-light.svg" alt="V Dental Clinics" width={220} height={60} className="h-12 w-auto object-contain" priority />
                 </div>
-              </Link>
+              </TransitionLink>
 
               <div className="flex items-center gap-3 lg:hidden">
                 <div className="lang-switch-container">
@@ -427,14 +428,14 @@ export default function HomeHeader({
                       <span className={`transition-transform duration-200 ${isMegaOpen ? "rotate-180" : ""}`}>▾</span>
                     </button>
                   ) : (
-                    <Link
+                    <TransitionLink
                       key={item.label}
                       href={withLanguage(item.href)}
                       className="text-white/90 hover:text-white"
                       onClick={() => setIsMegaOpen(false)}
                     >
                     <span data-translate={item.translateKey}>{item.label}</span>
-                    </Link>
+                    </TransitionLink>
                   )
                 )}
               </div>

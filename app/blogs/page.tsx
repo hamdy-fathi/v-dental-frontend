@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FloatingActions, HomeFooter, HomeHeader } from "@/components/home";
 import LanguageClientInit from "@/components/LanguageClientInit";
+import TransitionLink from "@/components/TransitionLink";
 import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
 const BLOG_API_URL = "http://92.113.31.86/api/v1/blog/front";
@@ -225,7 +226,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
                     const href = blog.slug ? withLanguage(`/blogs/${blog.slug}`, language) : withLanguage("/blogs", language);
 
                     return (
-                      <Link
+                      <TransitionLink
                         key={blog.id ?? `${blog.slug}-${title}`}
                         href={href}
                         className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#E5E7E0] bg-white shadow-sm transition-transform duration-200 hover:-translate-y-1"
@@ -255,7 +256,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
                             <span>{dateLabel}</span>
                           </div>
                         </div>
-                      </Link>
+                      </TransitionLink>
                     );
                   })
                 )}
@@ -273,7 +274,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
                       </span>
                     ) : (
                       categoryChips.map((category) => (
-                        <Link
+                        <TransitionLink
                           key={category.id}
                           href={category.slug ? withLanguage(`/blogs/category/${category.slug}`, language) : withLanguage("/blogs", language)}
                           className="inline-flex items-center gap-2 rounded-full border border-[#E5E7E0] bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.1em] text-[#6C7A65] transition-colors hover:border-[#5f724f] hover:text-[#5f724f]"
@@ -282,7 +283,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
                           <span className="rounded-full bg-[#5f724f] px-2 py-0.5 text-[10px] font-semibold text-white">
                             {category.count}
                           </span>
-                        </Link>
+                        </TransitionLink>
                       ))
                     )}
                   </div>

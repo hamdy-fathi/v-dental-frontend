@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo, Poppins } from "next/font/google";
+import { ViewTransitions } from "next-view-transitions";
 
 import "./globals.css";
 
@@ -63,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-theme-color="skin-2" className={`${poppins.variable} ${cairo.variable}`}>
       <head />
       <body id="bg">
-        {children}
+        <ViewTransitions>{children}</ViewTransitions>
       </body>
     </html>
   );
