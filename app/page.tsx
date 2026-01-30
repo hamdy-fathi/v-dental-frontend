@@ -311,6 +311,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           doctorCountText={doctorCountText}
           talkDoctorsImages={talkDoctorsImages}
           whatsappUrl={whatsappUrl}
+          phone={phone}
           mainClinicImage={mainClinicImage}
           additionalClinicImages={additionalClinicImages}
           availableDoctor={availableDoctor}
@@ -331,6 +332,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             "Rest assured, your oral health is in the hands of seasoned professionals passionate about excellence and your ultimate satisfaction."
           }
           doctors={doctorsList}
+          phone={phone}
           instagramUrl={instagramUrl}
           facebookUrl={facebookUrl}
         />

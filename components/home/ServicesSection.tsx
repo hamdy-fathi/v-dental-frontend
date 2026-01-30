@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { gsap } from "gsap";
 
 type ServicesSectionProps = {
   mainHeadline: string;
@@ -20,7 +21,19 @@ export default function ServicesSection({
   const [split, setSplit] = useState(50);
 
   useEffect(() => {
-    setSplit(50);
+    const tweenState = { value: 20 };
+    const tween = gsap.to(tweenState, {
+      value: 50,
+      duration: 0.9,
+      ease: "power2.out",
+      onUpdate: () => {
+        setSplit(Math.round(tweenState.value));
+      },
+    });
+
+    return () => {
+      tween.kill();
+    };
   }, []);
 
   return (

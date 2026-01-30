@@ -79,6 +79,45 @@ html[dir="rtl"] .about-services-list-item {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
+@keyframes hero-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hero-float {
+  animation: hero-float 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.hero-float--1 {
+  animation-delay: 0.1s;
+}
+
+.hero-float--2 {
+  animation-delay: 0.3s;
+}
+
+.hero-float--3 {
+  animation-delay: 0.5s;
+}
+
+.hero-float--4 {
+  animation-delay: 0.7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-float {
+    animation: none;
+  }
+}
+
 *,
 *::before,
 *::after {

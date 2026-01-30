@@ -24,7 +24,7 @@ export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl
           </div>
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-[0.15em] text-white">Quick Links</h4>
-            <ul className="mt-4 space-y-2 text-sm text-white/80">
+            <ul className="mt-4 space-y-2 list-none p-0 text-sm text-white/80">
               <li>
                 <a href="/" className="text-white/90 hover:text-white">Home</a>
               </li>

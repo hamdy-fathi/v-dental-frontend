@@ -18,6 +18,7 @@ type DoctorsSectionProps = {
   title: string;
   description: string;
   doctors: DoctorItem[];
+  phone: string;
   instagramUrl: string;
   facebookUrl: string;
 };
@@ -26,6 +27,7 @@ export default function DoctorsSection({
   title,
   description,
   doctors,
+  phone,
   instagramUrl,
   facebookUrl,
 }: DoctorsSectionProps) {
@@ -62,8 +64,13 @@ export default function DoctorsSection({
             plugins={[autoplay]}
           >
           <CarouselContent>
-              {doctors.map((doctor, index) => (
-              <CarouselItem className="basis-full px-3 md:basis-1/2 xl:basis-1/3" key={`${doctor.name ?? "doctor"}-${index}`}>
+              {doctors.map((doctor, index) => {
+                const doctorName = doctor.name ?? "Doctor";
+                const whatsappMessage = encodeURIComponent(`Book appointment with ${doctorName}`);
+                const whatsappLink = `https://api.whatsapp.com/send?phone=${phone}&text=${whatsappMessage}`;
+
+                return (
+              <CarouselItem className="basis-full px-3 md:basis-1/2 xl:basis-1/3" key={`${doctorName}-${index}`}>
                   <div className="group h-full rounded-3xl border border-[#E5E7E0] bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
                     <div className="relative overflow-hidden rounded-2xl bg-[#F7F5EA] p-5">
                       <img
@@ -73,14 +80,21 @@ export default function DoctorsSection({
                         loading="lazy"
                         decoding="async"
                       />
-                      <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-xs text-[#5E6F4C]">
+                      <div className="absolute left-4 top-4">
                         <img className="h-6 w-6 rounded-full object-cover" src={resolveImageUrl(doctor.small_image)} alt={doctor.name ?? "v-Dental Clinic"} />
-                        Available
                       </div>
                     </div>
                     <div className="mt-5">
-                      <h3 className="text-lg font-semibold text-[#2F3C2B]">{doctor.name ?? "Doctor"}</h3>
+                      <h3 className="text-lg font-semibold text-[#2F3C2B]">{doctorName}</h3>
                       <p className="mt-1 text-sm text-[#C9A26A]">{doctor.short_description ?? ""}</p>
+                      <a
+                        href={whatsappLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-4 inline-flex items-center justify-center rounded-full bg-[#5E6F4C] px-4 py-2 text-xs text-white font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-[#5E6F4C]/80 hover:text-white"
+                      >
+                        Book appointment
+                      </a>
                     </div>
                     <div className="mt-5 flex items-center justify-between border-t border-[#EEEDE6] pt-4 text-[#6C7A65]">
                       <div className="flex items-center gap-3">
@@ -95,7 +109,8 @@ export default function DoctorsSection({
                     </div>
                   </div>
                 </CarouselItem>
-              ))}
+                );
+              })}
             </CarouselContent>
             <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
               <div className="flex items-center gap-3">

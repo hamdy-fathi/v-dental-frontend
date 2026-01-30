@@ -8,7 +8,7 @@ type BranchesSectionProps = {
 
 export default function BranchesSection({ branches }: BranchesSectionProps) {
   return (
-    <section id="branches" className="bg-white py-16">
+    <section id="branches" className="bg-[#F7F5EA] py-16">
       <div className="container">
         <div className="grid gap-8 lg:grid-cols-2">
           {branches.map((branch, index) => {
