@@ -30,7 +30,7 @@ export default function ServicesSection({
           <h2 className="text-3xl font-semibold text-[#2F3C2B] sm:text-4xl">{mainHeadline}</h2>
           <p className="mt-4 text-base text-[#6C7A65]">{description}</p>
         </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 p-0 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {servicesImages.map((img, index) => (
             <div key={`${img}-${index}`} className="rounded-2xl bg-white p-4 shadow-sm">
               <img className="h-40 w-full rounded-xl object-cover" src={img ?? ""} alt="v-Dental Clinic" />
@@ -39,11 +39,14 @@ export default function ServicesSection({
         </div>
       </div>
       <div className="container mt-6">
-        <div className="mx-auto max-w-lg overflow-hidden rounded-3xl border border-[#5f724f] bg-[#5f724f] shadow-lg">
+        <div
+          dir="ltr"
+          className="mx-auto max-w-lg overflow-hidden rounded-3xl border border-[#5f724f] bg-[#5f724f] shadow-lg"
+        >
           <div className="relative h-[220px] w-full overflow-hidden rounded-3xl sm:h-[280px]">
-            <img className="absolute inset-0 h-full w-full object-contain bg-[#5f724f]" src={beforeImage} alt="Before" />
+            <img className="absolute inset-0 h-full w-full object-cover" src={beforeImage} alt="Before" />
             <img
-              className="absolute inset-0 h-full w-full object-contain bg-[#5f724f]"
+              className="absolute inset-0 h-full w-full object-cover"
               src={afterImage}
               alt="After"
               style={{ clipPath: `inset(0 0 0 ${split}%)` }}

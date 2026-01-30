@@ -1,7 +1,7 @@
 const API_URL = "https://api.vdentaleg.com/api/v1/unified-data/data";
 const API_DOMAIN = "https://api.vdentaleg.com";
 
-type Language = "en" | "ar";
+export type Language = "en" | "ar";
 
 type SectionWithContent = {
   content?: Array<{ language_id?: number; language?: { name?: string } } & Record<string, unknown>>;

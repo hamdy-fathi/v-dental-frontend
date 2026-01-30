@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FloatingActions, HomeFooter, HomeHeader } from "@/components/home";
-import { fetchUnifiedData } from "@/lib/unified-data";
+import LanguageClientInit from "@/components/LanguageClientInit";
+import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
 const BLOG_FILTER_URL = "http://92.113.31.86/api/v1/blog/filter";
 const BLOG_ASSET_BASE_URL = "http://92.113.31.86";
@@ -74,8 +75,29 @@ async function fetchBlogsByCategory(slug: string): Promise<BlogItem[]> {
 
 export const revalidate = 300;
 
-export default async function BlogCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+type BlogCategoryPageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ lang?: string }>;
+};
+
+function normalizeLanguage(value?: string): Language {
+  return value === "ar" ? "ar" : "en";
+}
+
+function languageIdFor(lang: Language) {
+  return lang === "ar" ? 2 : 1;
+}
+
+function withLanguage(href: string, lang: Language) {
+  const separator = href.includes("?") ? "&" : "?";
+  return `${href}${separator}lang=${lang}`;
+}
+
+export default async function BlogCategoryPage({ params, searchParams }: BlogCategoryPageProps) {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
+  const language = normalizeLanguage(resolvedSearchParams?.lang);
+  const languageId = languageIdFor(language);
   let blogs: BlogItem[] = [];
 
   try {
@@ -86,7 +108,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ s
 
   let generalSettings: { store_phone?: string; store_email?: string; facebook_url?: string; instagram_url?: string; content?: { store_description?: string } } | null;
   try {
-    const unifiedData = await fetchUnifiedData("en");
+    const unifiedData = await fetchUnifiedData(language);
     generalSettings = unifiedData.generalSettings as typeof generalSettings;
   } catch (error) {
     generalSettings = null;
@@ -103,19 +125,31 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ s
 
   return (
     <div className="page-wraper bg-white">
-      <HomeHeader phone={phone} email={email} instagramUrl={instagramUrl} facebookUrl={facebookUrl} whatsappUrl={whatsappUrl} />
+      <LanguageClientInit language={language} />
+      <HomeHeader
+        phone={phone}
+        email={email}
+        instagramUrl={instagramUrl}
+        facebookUrl={facebookUrl}
+        whatsappUrl={whatsappUrl}
+        language={language}
+      />
       <main className="page-content pt-32">
         <section className="bg-[#5f724f] py-14">
           <div className="container text-center">
-            <Link href="/blogs" className="text-xs font-semibold uppercase tracking-[0.2em] text-white">
-              ← Back to blogs
+            <Link href={withLanguage("/blogs", language)} className="text-xs font-semibold uppercase tracking-[0.2em] text-white">
+              <span data-translate="blogs.back">Back to blogs</span>
             </Link>
             <div className="mt-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white">Category</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white" data-translate="blogs.category.tag">
+                Category
+              </p>
               <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
                 {slug.replace(/-/g, " ")}
               </h1>
-              <p className="mt-3 text-base text-white">Explore the latest articles in this category.</p>
+              <p className="mt-3 text-base text-white" data-translate="blogs.category.subtitle">
+                Explore the latest articles in this category.
+              </p>
             </div>
           </div>
         </section>
@@ -125,11 +159,11 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ s
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {blogs.length === 0 ? (
                 <div className="rounded-2xl border border-[#E5E7E0] bg-white p-6 text-center text-white md:col-span-2 lg:col-span-3">
-                  No blogs are available for this category right now.
+                  <span data-translate="blogs.category.empty">No blogs are available for this category right now.</span>
                 </div>
               ) : (
                 blogs.map((blog) => {
-                  const content = selectByLanguage(blog.content, 1);
+                  const content = selectByLanguage(blog.content, languageId);
                   const title = content?.title ?? "Untitled blog";
                   const subtitle = content?.subTitle ?? "";
                   const descriptionSource = content?.shortDescription ?? content?.description ?? "";
@@ -140,12 +174,12 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ s
                     : "V Dental Clinics";
                   const dateLabel = formatDate(blog.createdAt);
                   const blogCategories =
-                    blog.categories?.map((category) => selectByLanguage(category.content, 1)?.name).filter(Boolean) ?? [];
+                    blog.categories?.map((category) => selectByLanguage(category.content, languageId)?.name).filter(Boolean) ?? [];
 
                   return (
                     <Link
                       key={blog.id ?? `${blog.slug}-${title}`}
-                      href={blog.slug ? `/blogs/${blog.slug}` : "/blogs"}
+                      href={blog.slug ? withLanguage(`/blogs/${blog.slug}`, language) : withLanguage("/blogs", language)}
                       className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#E5E7E0] bg-white shadow-sm transition-transform duration-200 hover:-translate-y-1"
                     >
                       <div className="relative h-96 w-full overflow-hidden bg-[#F3F4EF]">
@@ -169,8 +203,6 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ s
                         </div>
                         <div className="mt-auto flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#8A9882]">
                           <span>{dateLabel}</span>
-                          <span>•</span>
-                          <span>{author || "V Dental Clinics"}</span>
                         </div>
                       </div>
                     </Link>

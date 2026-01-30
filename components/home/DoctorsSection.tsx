@@ -46,7 +46,7 @@ export default function DoctorsSection({
   const autoplay = useMemo(() => Autoplay({ delay: 4500, stopOnInteraction: true }), []);
 
   return (
-    <section id="doctors" className="bg-[url('/images/background/bg2.webp')] bg-right-top bg-no-repeat bg-cover py-16" style={{ direction: "ltr" }}>
+    <section id="doctors" className="bg-[url('/images/background/bg2.webp')] bg-right-top bg-no-repeat bg-cover py-16">
       <div className="container">
         <div className="flex flex-wrap items-start justify-center gap-8 text-center md:justify-between md:text-left">
           <div className="max-w-2xl">
@@ -55,7 +55,7 @@ export default function DoctorsSection({
           </div>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10" dir="ltr">
           <Carousel
             setApi={setMainApi}
             opts={{ align: "start", loop: true, containScroll: "trimSnaps" }}
@@ -85,10 +85,10 @@ export default function DoctorsSection({
                     <div className="mt-5 flex items-center justify-between border-t border-[#EEEDE6] pt-4 text-[#6C7A65]">
                       <div className="flex items-center gap-3">
                         <a href={doctor.instagram ?? instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram">
-                          <Instagram className="h-4 w-4" />
+                          <Instagram className="h-4 w-4 text-[#5E6F4C]" />
                         </a>
                         <a href={doctor.facebook ?? facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook">
-                          <Facebook className="h-4 w-4" />
+                          <Facebook className="h-4 w-4 text-[#5E6F4C]" />
                         </a>
                       </div>
                       <span className="text-xs text-[#5E6F4C]">{String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>

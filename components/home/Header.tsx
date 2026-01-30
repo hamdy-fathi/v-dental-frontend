@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import type { Language } from "@/lib/unified-data";
+import { applyLanguage } from "@/lib/language-client";
 
 type HomeHeaderProps = {
   phone: string;
@@ -11,12 +14,13 @@ type HomeHeaderProps = {
   instagramUrl: string;
   facebookUrl: string;
   whatsappUrl: string;
+  language: Language;
 };
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/blogs", label: "Blogs" },
+  { href: "/", label: "Home", translateKey: "nav.home" },
+  { href: "/about", label: "About", translateKey: "nav.about" },
+  { href: "/blogs", label: "Blogs", translateKey: "nav.blogs" },
 ];
 
 export default function HomeHeader({
@@ -25,7 +29,12 @@ export default function HomeHeader({
   instagramUrl,
   facebookUrl,
   whatsappUrl,
+  language,
 }: HomeHeaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [activeLanguage, setActiveLanguage] = useState<Language>(language);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const [isMegaOpen, setIsMegaOpen] = useState(false);
@@ -34,6 +43,50 @@ export default function HomeHeader({
   const megaRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  const normalizeLanguage = (value: string | null): Language | null => {
+    if (value === "ar") return "ar";
+    if (value === "en") return "en";
+    return null;
+  };
+
+  const withLanguage = (href: string) => {
+    if (!href.startsWith("/")) return href;
+    const separator = href.includes("?") ? "&" : "?";
+    return `${href}${separator}lang=${activeLanguage}`;
+  };
+
+  const syncLanguage = useCallback(
+    (nextLanguage: Language) => {
+    setActiveLanguage(nextLanguage);
+    applyLanguage(nextLanguage);
+
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set("lang", nextLanguage);
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
+    },
+    [pathname, router, searchParams]
+  );
+
+  useEffect(() => {
+    setActiveLanguage(language);
+  }, [language]);
+
+  useEffect(() => {
+    const saved = normalizeLanguage(typeof window !== "undefined" ? localStorage.getItem("language") : null);
+    const urlLanguage = normalizeLanguage(searchParams?.get("lang"));
+
+    if (!urlLanguage && saved && saved !== activeLanguage) {
+      syncLanguage(saved);
+      return;
+    }
+
+    if (urlLanguage && urlLanguage !== activeLanguage) {
+      setActiveLanguage(urlLanguage);
+      applyLanguage(urlLanguage);
+    }
+  }, [activeLanguage, searchParams, syncLanguage]);
 
   useEffect(() => {
     function handleScroll() {
@@ -203,14 +256,14 @@ export default function HomeHeader({
                 ) : (
                   <Link
                     key={item.label}
-                    href={item.href}
+                    href={withLanguage(item.href)}
                     className="rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.08em] transition-colors hover:bg-white/15 text-white/90 hover:text-white"
                     onClick={() => {
                       setIsMegaOpen(false);
                       setIsMobileMenuOpen(false);
                     }}
                   >
-                    {item.label}
+                    <span data-translate={item.translateKey}>{item.label}</span>
                   </Link>
                 )
               )}
@@ -219,14 +272,18 @@ export default function HomeHeader({
 
           <div className="space-y-3 border-t border-white/20 p-6">
             <Button variant="outline" size="sm" className="w-full justify-center border-white/40 text-white hover:bg-white/15" asChild>
-              <a href={`tel:+${phone}`}>Call Now</a>
+              <a href={`tel:+${phone}`} data-translate="button.call_now">
+                Call Now
+              </a>
             </Button>
             <Button
               size="sm"
               className="w-full justify-center rounded-full bg-white px-5 text-[#5f724f] shadow-sm hover:bg-[#efe9d7]"
               asChild
             >
-              <a href={whatsappUrl}>Appointment</a>
+              <a href={whatsappUrl} data-translate="button.appointment">
+                Appointment
+              </a>
             </Button>
           </div>
         </div>
@@ -318,16 +375,40 @@ export default function HomeHeader({
                 </div>
               </Link>
 
-              <button
-                data-mobile-menu-button
-                onClick={() => setIsMobileMenuOpen(true)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white shadow-sm transition-colors hover:bg-white/20 active:scale-95 lg:hidden"
-                aria-label="Open menu"
-              >
-                <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-3 lg:hidden">
+                <div className="lang-switch-container">
+                  <button
+                    type="button"
+                    onClick={() => syncLanguage("en")}
+                    className={`lang-switch-button lang-switch-button--compact ${
+                      activeLanguage === "en" ? "lang-switch-button--active" : ""
+                    }`}
+                    aria-pressed={activeLanguage === "en"}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => syncLanguage("ar")}
+                    className={`lang-switch-button lang-switch-button--compact ${
+                      activeLanguage === "ar" ? "lang-switch-button--active" : ""
+                    }`}
+                    aria-pressed={activeLanguage === "ar"}
+                  >
+                    AR
+                  </button>
+                </div>
+                <button
+                  data-mobile-menu-button
+                  onClick={() => setIsMobileMenuOpen(true)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white shadow-sm transition-colors hover:bg-white/20 active:scale-95"
+                  aria-label="Open menu"
+                >
+                  <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <nav className="hidden flex-1 flex-wrap items-center justify-between gap-4 text-sm font-medium uppercase tracking-[0.08em] md:text-base lg:flex">
@@ -348,25 +429,51 @@ export default function HomeHeader({
                   ) : (
                     <Link
                       key={item.label}
-                      href={item.href}
+                      href={withLanguage(item.href)}
                       className="text-white/90 hover:text-white"
                       onClick={() => setIsMegaOpen(false)}
                     >
-                      {item.label}
+                    <span data-translate={item.translateKey}>{item.label}</span>
                     </Link>
                   )
                 )}
               </div>
               <div className="flex items-center gap-3">
+                <div className="lang-switch-container">
+                  <button
+                    type="button"
+                    onClick={() => syncLanguage("en")}
+                    className={`lang-switch-button lang-switch-button--compact ${
+                      activeLanguage === "en" ? "lang-switch-button--active" : ""
+                    }`}
+                    aria-pressed={activeLanguage === "en"}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => syncLanguage("ar")}
+                    className={`lang-switch-button lang-switch-button--compact ${
+                      activeLanguage === "ar" ? "lang-switch-button--active" : ""
+                    }`}
+                    aria-pressed={activeLanguage === "ar"}
+                  >
+                    AR
+                  </button>
+                </div>
                 <Button variant="outline" size="sm" className="border-white/40 text-white hover:bg-white/15" asChild>
-                  <a href={`tel:+${phone}`}>Call Now</a>
+                  <a href={`tel:+${phone}`} data-translate="button.call_now">
+                    Call Now
+                  </a>
                 </Button>
                 <Button
                   size="sm"
                   className="rounded-full bg-white px-5 text-[#5f724f] shadow-sm hover:bg-[#efe9d7]"
                   asChild
                 >
-                  <a href={whatsappUrl}>Appointment</a>
+                  <a href={whatsappUrl} data-translate="button.appointment">
+                    Appointment
+                  </a>
                 </Button>
               </div>
             </nav>

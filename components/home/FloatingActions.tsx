@@ -19,18 +19,18 @@ export default function FloatingActions({ phone }: FloatingActionsProps) {
         <ArrowUp className="h-14 w-14" />
       </Button>
 
-      <Button
-        asChild
-        className="fixed bottom-24 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#25D366]/80"
-      >
-        <a href={`https://api.whatsapp.com/send?phone=${phone}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-          <MessageCircle className="h-5 w-5" />
+      <Button asChild className="fixed bottom-20 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#5E6F4C] text-white shadow-lg hover:bg-[#5E6F4C]/80">
+        <a href={`tel:+${phone}`} aria-label="Call V Dental">
+          <Phone className="h-5 w-5" />
         </a>
       </Button>
 
-      <Button asChild className="fixed bottom-24 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#5E6F4C] text-white shadow-lg hover:bg-[#5E6F4C]/80">
-        <a href={`tel:+${phone}`} aria-label="Call V Dental">
-          <Phone className="h-5 w-5" />
+      <Button
+        asChild
+        className="fixed bottom-6 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg hover:bg-[#25D366]/80"
+      >
+        <a href={`https://api.whatsapp.com/send?phone=${phone}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <MessageCircle className="h-5 w-5" />
         </a>
       </Button>
     </>

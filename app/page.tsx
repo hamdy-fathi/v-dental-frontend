@@ -1,4 +1,5 @@
-import { apiImageUrl, fetchUnifiedData, type UnifiedData } from "@/lib/unified-data";
+import { apiImageUrl, fetchUnifiedData, type Language, type UnifiedData } from "@/lib/unified-data";
+import LanguageClientInit from "@/components/LanguageClientInit";
 import {
   AboutSection,
   AboutServicesSection,
@@ -16,10 +17,27 @@ import type { AvailableDoctor, BranchItem, DoctorItem, FeatureItem, ReviewItem }
 
 export const revalidate = 300;
 
-export default async function HomePage() {
+type HomePageProps = {
+  searchParams?: Promise<{ lang?: string }>;
+};
+
+function normalizeLanguage(value?: string): Language {
+  return value === "ar" ? "ar" : "en";
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const resolvedSearchParams = await searchParams;
+  const language = normalizeLanguage(resolvedSearchParams?.lang);
   let data: UnifiedData;
+  let englishData: UnifiedData | null = null;
   try {
-    data = await fetchUnifiedData("en");
+    if (language === "en") {
+      data = await fetchUnifiedData(language);
+    } else {
+      const [langData, enData] = await Promise.all([fetchUnifiedData(language), fetchUnifiedData("en")]);
+      data = langData;
+      englishData = enData;
+    }
   } catch (error) {
     data = {
       generalSettings: null,
@@ -51,6 +69,9 @@ export default async function HomePage() {
   const sectionThree = data.sectionThree as
     | { main_headline?: string; description?: string; services_images?: string[]; service_image_before?: string; service_image_after?: string }
     | null;
+  const englishSectionThree = englishData?.sectionThree as
+    | { service_image_before?: string; service_image_after?: string }
+    | null;
   const sectionFour = data.sectionFour as
     | {
         main_headline?: string;
@@ -65,6 +86,9 @@ export default async function HomePage() {
   const sectionFive = data.sectionFive as
     | { doctor_image?: string; about_services?: string[]; experience_years?: string | number }
     | null;
+  const englishSectionFive = englishData?.sectionFive as
+    | { doctor_image?: string }
+    | null;
   const sectionReviews = data.sectionReviews as
     | { reviews?: ReviewItem[]; content?: { reviews?: ReviewItem[] } }
     | null;
@@ -75,6 +99,11 @@ export default async function HomePage() {
     | {
         title?: string;
         description?: string;
+        doctors?: DoctorItem[];
+      }
+    | null;
+  const englishSectionDoctors = englishData?.sectionDoctors as
+    | {
         doctors?: DoctorItem[];
       }
     | null;
@@ -118,8 +147,10 @@ export default async function HomePage() {
       ? sectionThree.services_images.map((img) => apiImageUrl(img)).filter((img): img is string => Boolean(img))
       : ["/assets/images/4/img1.webp", "/assets/images/4/img2.webp", "/assets/images/4/img3.webp", "/assets/images/4/img4.webp"];
 
-  const beforeImage = apiImageUrl(sectionThree?.service_image_before) ?? "/assets/images/875-500";
-  const afterImage = apiImageUrl(sectionThree?.service_image_after) ?? "/assets/images/875-500";
+  const beforeImage =
+    apiImageUrl(englishSectionThree?.service_image_before ?? sectionThree?.service_image_before) ?? "/assets/images/875-500";
+  const afterImage =
+    apiImageUrl(englishSectionThree?.service_image_after ?? sectionThree?.service_image_after) ?? "/assets/images/875-500";
 
   const reviewsData: ReviewItem[] =
     sectionReviews?.content?.reviews && Array.isArray(sectionReviews.content.reviews)
@@ -179,8 +210,18 @@ export default async function HomePage() {
 
   const doctors =
     sectionDoctors?.doctors && Array.isArray(sectionDoctors.doctors) ? sectionDoctors.doctors : [];
-  const doctorsList = doctors.length
-    ? doctors
+  const englishDoctors =
+    englishSectionDoctors?.doctors && Array.isArray(englishSectionDoctors.doctors) ? englishSectionDoctors.doctors : [];
+  const doctorsSource = doctors.length ? doctors : englishDoctors;
+  const doctorsList = doctorsSource.length
+    ? doctorsSource.map((doctor, index) => {
+        const englishDoctor = englishDoctors[index];
+        return {
+          ...doctor,
+          small_image: englishDoctor?.small_image ?? doctor.small_image,
+          image_main: englishDoctor?.image_main ?? doctor.image_main,
+        };
+      })
     : [
         {
           name: "Dr. Shimaa Safwat",
@@ -248,12 +289,21 @@ export default async function HomePage() {
   const rightSectionImage3 = apiImageUrl(sectionFour?.right_section_image_3) ?? "/assets/images/200/1.png";
   const rightSectionImage4 = apiImageUrl(sectionFour?.right_section_image_4) ?? "/assets/images/5/11.jpeg";
 
-  const doctorImage = apiImageUrl(sectionFive?.doctor_image) ?? "/assets/images/200/dr seif.png";
+  const doctorImage =
+    apiImageUrl(englishSectionFive?.doctor_image ?? sectionFive?.doctor_image) ?? "/assets/images/200/dr seif.png";
   const experienceYears = sectionFive?.experience_years ?? "20";
 
   return (
     <div className="page-wraper">
-      <HomeHeader phone={phone} email={email} instagramUrl={instagramUrl} facebookUrl={facebookUrl} whatsappUrl={whatsappUrl} />
+      <LanguageClientInit language={language} />
+      <HomeHeader
+        phone={phone}
+        email={email}
+        instagramUrl={instagramUrl}
+        facebookUrl={facebookUrl}
+        whatsappUrl={whatsappUrl}
+        language={language}
+      />
       <main className="page-content">
         <HeroSection
           heroHeadline={heroHeadline}

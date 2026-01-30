@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FloatingActions, HomeFooter, HomeHeader } from "@/components/home";
-import { fetchUnifiedData } from "@/lib/unified-data";
+import LanguageClientInit from "@/components/LanguageClientInit";
+import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
 const BLOG_API_URL = "http://92.113.31.86/api/v1/blog/front";
 const CATEGORY_API_URL = "http://92.113.31.86/api/v1/category/parent";
@@ -110,7 +111,27 @@ async function fetchCategories(): Promise<CategoryItem[]> {
 
 export const revalidate = 300;
 
-export default async function BlogsPage() {
+type BlogsPageProps = {
+  searchParams?: Promise<{ lang?: string }>;
+};
+
+function normalizeLanguage(value?: string): Language {
+  return value === "ar" ? "ar" : "en";
+}
+
+function languageIdFor(lang: Language) {
+  return lang === "ar" ? 2 : 1;
+}
+
+function withLanguage(href: string, lang: Language) {
+  const separator = href.includes("?") ? "&" : "?";
+  return `${href}${separator}lang=${lang}`;
+}
+
+export default async function BlogsPage({ searchParams }: BlogsPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const language = normalizeLanguage(resolvedSearchParams?.lang);
+  const languageId = languageIdFor(language);
   let blogs: BlogItem[] = [];
   let categories: CategoryItem[] = [];
 
@@ -123,7 +144,7 @@ export default async function BlogsPage() {
 
   let generalSettings: { store_phone?: string; store_email?: string; facebook_url?: string; instagram_url?: string; content?: { store_description?: string } } | null;
   try {
-    const unifiedData = await fetchUnifiedData("en");
+    const unifiedData = await fetchUnifiedData(language);
     generalSettings = unifiedData.generalSettings as typeof generalSettings;
   } catch (error) {
     generalSettings = null;
@@ -141,7 +162,7 @@ export default async function BlogsPage() {
   const categoryChips = categories
     .filter((category) => category.categoryType === "blog")
     .map((category) => {
-      const content = selectByLanguage(category.content, 1);
+      const content = selectByLanguage(category.content, languageId);
       return {
         id: category.id ?? 0,
         slug: category.slug ?? "",
@@ -152,14 +173,26 @@ export default async function BlogsPage() {
 
   return (
     <div className="page-wraper bg-white">
-      <HomeHeader phone={phone} email={email} instagramUrl={instagramUrl} facebookUrl={facebookUrl} whatsappUrl={whatsappUrl} />
+      <LanguageClientInit language={language} />
+      <HomeHeader
+        phone={phone}
+        email={email}
+        instagramUrl={instagramUrl}
+        facebookUrl={facebookUrl}
+        whatsappUrl={whatsappUrl}
+        language={language}
+      />
       <main className="page-content pt-32">
         <section className="bg-[#5f724f] py-16">
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white">Blogs</p>
-              <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">Latest insights from V Dental Clinics</h1>
-              <p className="mt-4 text-base text-white">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white" data-translate="blogs.hero.tag">
+                Blogs
+              </p>
+              <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl" data-translate="blogs.hero.title">
+                Latest insights from V Dental Clinics
+              </h1>
+              <p className="mt-4 text-base text-white" data-translate="blogs.hero.subtitle">
                 Explore new treatments, oral health tips, and technology updates from our specialists.
               </p>
             </div>
@@ -172,11 +205,11 @@ export default async function BlogsPage() {
               <div className="grid gap-8 md:grid-cols-2">
                 {blogs.length === 0 ? (
                   <div className="rounded-2xl border border-[#E5E7E0] bg-white p-6 text-center text-[#6C7A65] md:col-span-2">
-                    No blogs are available right now. Please check back soon.
+                    <span data-translate="blogs.empty">No blogs are available right now. Please check back soon.</span>
                   </div>
                 ) : (
                   blogs.map((blog) => {
-                    const content = selectByLanguage(blog.content, 1);
+                    const content = selectByLanguage(blog.content, languageId);
                     const title = content?.title ?? "Untitled blog";
                     const subtitle = content?.subTitle ?? "";
                     const descriptionSource = content?.shortDescription ?? content?.description ?? "";
@@ -187,9 +220,9 @@ export default async function BlogsPage() {
                       : "V Dental Clinics";
                     const dateLabel = formatDate(blog.createdAt);
                     const blogCategories =
-                      blog.categories?.map((category) => selectByLanguage(category.content, 1)?.name).filter(Boolean) ?? [];
+                      blog.categories?.map((category) => selectByLanguage(category.content, languageId)?.name).filter(Boolean) ?? [];
 
-                    const href = blog.slug ? `/blogs/${blog.slug}` : "/blogs";
+                    const href = blog.slug ? withLanguage(`/blogs/${blog.slug}`, language) : withLanguage("/blogs", language);
 
                     return (
                       <Link
@@ -220,8 +253,6 @@ export default async function BlogsPage() {
                           </div>
                           <div className="mt-auto flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#8A9882]">
                             <span>{dateLabel}</span>
-                            <span>•</span>
-                            <span>{author || "V Dental Clinics"}</span>
                           </div>
                         </div>
                       </Link>
@@ -232,15 +263,19 @@ export default async function BlogsPage() {
 
               <aside className="space-y-6 rounded-3xl border border-[#E5E7E0] bg-[#F6F4E5] p-6">
                 <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#5f724f]">Categories</h3>
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#5f724f]" data-translate="blogs.categories">
+                    Categories
+                  </h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {categoryChips.length === 0 ? (
-                      <span className="text-sm text-[#6C7A65]">No categories available.</span>
+                      <span className="text-sm text-[#6C7A65]" data-translate="blogs.categories.empty">
+                        No categories available.
+                      </span>
                     ) : (
                       categoryChips.map((category) => (
                         <Link
                           key={category.id}
-                          href={category.slug ? `/blogs/category/${category.slug}` : "/blogs"}
+                          href={category.slug ? withLanguage(`/blogs/category/${category.slug}`, language) : withLanguage("/blogs", language)}
                           className="inline-flex items-center gap-2 rounded-full border border-[#E5E7E0] bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.1em] text-[#6C7A65] transition-colors hover:border-[#5f724f] hover:text-[#5f724f]"
                         >
                           {category.name}
@@ -254,13 +289,17 @@ export default async function BlogsPage() {
                 </div>
 
                 <div className="rounded-2xl bg-white p-4 text-sm text-[#6C7A65]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5f724f]">Need an appointment?</p>
-                  <p className="mt-3">Talk to our dental team and book your next visit today.</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5f724f]" data-translate="blogs.sidebar.title">
+                    Need an appointment?
+                  </p>
+                  <p className="mt-3" data-translate="blogs.sidebar.text">
+                    Talk to our dental team and book your next visit today.
+                  </p>
                   <a
                     href={whatsappUrl}
                     className="mt-4 inline-flex items-center justify-center rounded-full bg-[#5f724f] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
                   >
-                    Book on WhatsApp
+                    <span data-translate="blogs.sidebar.cta">Book on WhatsApp</span>
                   </a>
                 </div>
               </aside>
