@@ -14,7 +14,7 @@ const translations: Record<Language, Record<string, string>> = {
     "doctors.doctor": "doctor",
     "doctors.talk_to_over_count": "",
     "branch.working_hours": "Working Hours:",
-    "branch.office_address": "Office Address:",
+    "branch.office_address": "Clinic Address:",
     "footer.copyright": "All Rights Reserved.",
     "section.best_dentist": "Best Dentist",
     "section.about_services": "About Services",

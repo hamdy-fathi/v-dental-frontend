@@ -54,7 +54,7 @@ export default function BranchesSection({ branches }: BranchesSectionProps) {
                     </div>
                     <div className="min-h-[96px]">
                       <h5 className="text-sm font-semibold text-[#2F3C2B]" data-translate="branch.office_address">
-                        Office Address:
+                        Clinic Address:
                       </h5>
                       <p className="mt-2 text-sm text-[#6C7A65]">
                         {addressLines.map((line: string, lineIndex: number) => (
