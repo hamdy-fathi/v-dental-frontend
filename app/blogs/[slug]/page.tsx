@@ -4,8 +4,8 @@ import LanguageClientInit from "@/components/LanguageClientInit";
 import TransitionLink from "@/components/TransitionLink";
 import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
-const BLOG_DETAIL_URL = "http://92.113.31.86/api/v1/blog/by-slug";
-const BLOG_ASSET_BASE_URL = "http://92.113.31.86";
+const BLOG_DETAIL_URL = "https://www.vdentaleg.com/api/v1/blog/by-slug";
+const BLOG_ASSET_BASE_URL = "https://www.vdentaleg.com";
 
 type BlogContent = {
   title?: string;

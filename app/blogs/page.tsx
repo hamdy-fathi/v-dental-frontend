@@ -4,9 +4,9 @@ import LanguageClientInit from "@/components/LanguageClientInit";
 import TransitionLink from "@/components/TransitionLink";
 import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
-const BLOG_API_URL = "http://92.113.31.86/api/v1/blog/front";
-const CATEGORY_API_URL = "http://92.113.31.86/api/v1/category/parent";
-const BLOG_ASSET_BASE_URL = "http://92.113.31.86";
+const BLOG_API_URL = "https://www.vdentaleg.com/api/v1/blog/front";
+const CATEGORY_API_URL = "https://www.vdentaleg.com/api/v1/category/parent";
+const BLOG_ASSET_BASE_URL = "https://www.vdentaleg.com";
 
 const BLOG_QUERY = {
   query: {

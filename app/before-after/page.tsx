@@ -50,12 +50,12 @@ export default async function BeforeAfterPage({ searchParams }: BeforeAfterPageP
   const normalizeImageUrl = (value?: string | null) => {
     if (!value) return "";
     if (value.startsWith("http://") || value.startsWith("https://")) return value;
-    return `http://92.113.31.86/${value.replace(/^\/+/, "")}`;
+    return `https://www.vdentaleg.com/${value.replace(/^\/+/, "")}`;
   };
 
   let beforeAfterPairs: Array<{ before: string; after: string; description: string }> = [];
   try {
-    const response = await fetch("http://92.113.31.86/api/v1/before-after", { next: { revalidate } });
+    const response = await fetch("https://www.vdentaleg.com/api/v1/before-after", { next: { revalidate } });
     const payload = (await response.json()) as { data?: BeforeAfterItem[] };
     beforeAfterPairs = (payload.data ?? []).map((item) => ({
       before: normalizeImageUrl(item.before),
