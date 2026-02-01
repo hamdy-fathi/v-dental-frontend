@@ -112,6 +112,7 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
   const email = generalSettings?.store_email ?? "info@vdentaleg.com";
   const instagramUrl = generalSettings?.instagram_url ?? "https://www.instagram.com/vdentalclinicseg/";
   const facebookUrl = generalSettings?.facebook_url ?? "https://www.facebook.com/vdentalclinicseg/";
+  const tiktokUrl = "https://www.tiktok.com/@vdentalclinicseg?_r=1&_t=ZS-93Yyt6S1emT";
   const storeDescription =
     generalSettings?.content?.store_description ??
     "Redefining dental care with precision, comfort, and lasting results.";
@@ -250,7 +251,7 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
           </div>
         </section>
       </main>
-      <HomeFooter storeDescription={storeDescription} instagramUrl={instagramUrl} facebookUrl={facebookUrl} />
+      <HomeFooter storeDescription={storeDescription} instagramUrl={instagramUrl} facebookUrl={facebookUrl} tiktokUrl={tiktokUrl} />
       <FloatingActions phone={phone} />
     </div>
   );
