@@ -129,11 +129,11 @@ export default function HeroSection({
           <div className="relative">
             <div ref={parallaxRef} className="relative mx-auto max-w-lg">
               <img className="w-full rounded-[32px] object-cover" src={mainClinicImage} alt="v-Dental Clinic" />
-              {additionalClinicImages.slice(0, 3).map((img, index) => {
+              {additionalClinicImages.slice(0, 0).map((img, index) => {
                 const positions = [
                   "left-0 top-10",
                   "right-0 top-24",
-                  "left-10 bottom-4",
+                  
                 ];
                 return (
                   <div
