@@ -1,5 +1,5 @@
-const API_URL = "https://api.vdentaleg.com/api/v1/unified-data/data";
-const API_DOMAIN = "https://api.vdentaleg.com";
+const API_URL = "https://www.vdentaleg.com/api/v1/unified-data/data";
+const API_DOMAIN = "https://www.vdentaleg.com";
 
 export type Language = "en" | "ar";
 
