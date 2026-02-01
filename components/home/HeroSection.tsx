@@ -103,11 +103,14 @@ export default function HeroSection({
               <div className="rounded-2xl border border-[#E5E7E0] bg-[#5E6F4C] px-5 py-4 shadow-sm">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F7F5EA] text-[#5E6F4C]">
-                    <span className="text-lg">★</span>
+                    <span className="text-xs font-semibold">{doctorCountText}+</span>
                   </div>
-                  <div>
-                    <div className="text-lg font-semibold text-[#F7F5EA]">{doctorCountText}+</div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-[#F7F5EA]" data-translate="doctors.talk_to_over_count" data-count={doctorCountText}>
+                  <div className="text-center">
+                    <div
+                      className="text-sm font-bold uppercase tracking-[0.2em] text-[#F7F5EA]"
+                      data-translate="doctors.talk_to_over_count"
+                      data-count={doctorCountText}
+                    >
                       Talk to over {doctorCountText} doctor
                     </div>
                   </div>
@@ -147,16 +150,7 @@ export default function HeroSection({
           </div>
         </div>
       </div>
-      <img
-        className="absolute left-0 top-10 hidden w-48 md:block hero-float hero-float--2"
-        src="/images/hero-banner/img2.webp"
-        alt="v-Dental Clinic"
-      />
-      <img
-        className="absolute right-0 bottom-10 hidden w-48 md:block hero-float hero-float--3"
-        src="/images/hero-banner/img4.webp"
-        alt="v-Dental Clinic"
-      />
+    
       <img
         className="absolute top-16 left-1/2 hidden w-[70%] -translate-x-1/2 md:block bg-[#F7F5EA] "
         src="/svg/banner-shape.svg"

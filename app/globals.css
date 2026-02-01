@@ -201,3 +201,27 @@ a:hover {
   fill: #5E6F4C; /* or your preferred color */
   stroke: none;
 }
+
+.whatsapp-fixed {
+  position: fixed;
+  bottom: 20px !important;
+  left: 24px !important;
+  width: 45px !important;
+  height: 45px !important;
+  background-color: #5D734C;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #ffffff;
+  z-index: 1000;
+}
+
+.whatsapp-fixed .whatsapp-icon {
+  width: 28px;
+  height: 28px;
+  color: currentColor;
+  display: block;
+  transform: translate(-1px, -1px);
+}

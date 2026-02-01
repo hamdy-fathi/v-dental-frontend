@@ -48,8 +48,11 @@ export default function DoctorsSection({
   const autoplay = useMemo(() => Autoplay({ delay: 4500, stopOnInteraction: true }), []);
 
   return (
-    <section id="doctors" className="bg-[url('/images/background/bg2.webp')] bg-right-top bg-no-repeat bg-cover py-16">
-      <div className="container">
+    <section
+      id="doctors"
+      className="py-16 bg-white" 
+  
+    >      <div className="container">
         <div className="flex flex-wrap items-start justify-center gap-8 text-center md:justify-between md:text-left">
           <div className="max-w-2xl">
             <h2 className="text-3xl font-semibold text-[#2F3C2B] sm:text-4xl">{title}</h2>

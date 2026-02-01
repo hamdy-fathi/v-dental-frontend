@@ -4,6 +4,7 @@ const translations: Record<Language, Record<string, string>> = {
   en: {
     "nav.home": "Home",
     "nav.about": "About",
+    "nav.before_after": "Before & After",
     "nav.blogs": "Blogs",
     "button.call_now": "Call Now",
     "button.appointment": "Appointment",
@@ -19,6 +20,10 @@ const translations: Record<Language, Record<string, string>> = {
     "section.best_dentist": "Best Dentist",
     "section.about_services": "About Services",
     "section.patient_testimonials": "What our patient say about us",
+    "before_after.hero.tag": "Before & After",
+    "before_after.hero.title": "Before & After Gallery",
+    "before_after.hero.subtitle": "Real transformations from our patients. See the difference our care makes.",
+    "before_after.view_gallery": "View All Before & After Cases",
     "blogs.hero.tag": "Blogs",
     "blogs.hero.title": "Latest insights from V Dental Clinics",
     "blogs.hero.subtitle": "Explore new treatments, oral health tips, and technology updates from our specialists.",
@@ -44,6 +49,7 @@ const translations: Record<Language, Record<string, string>> = {
   ar: {
     "nav.home": "الرئيسية",
     "nav.about": "من نحن",
+    "nav.before_after": "قبل وبعد ",
     "nav.blogs": "المدونة",
     "button.call_now": "اتصل الآن",
     "button.appointment": "حجز موعد",
@@ -59,6 +65,11 @@ const translations: Record<Language, Record<string, string>> = {
     "section.best_dentist": "أفضل طبيب أسنان",
     "section.about_services": "حول الخدمات",
     "section.patient_testimonials": "ماذا يقول زائرينا عنا",
+    
+    "before_after.hero.tag": "قبل وبعد",
+    "before_after.hero.title": "معرض قبل وبعد",
+    "before_after.hero.subtitle": "تحولات حقيقية من مرضانا. شاهد الفرق الذي تصنعه رعايتنا.",
+    "before_after.view_gallery": "عرض قبل وبعد",
     "blogs.hero.tag": "المدونة",
     "blogs.hero.title": "أحدث المقالات من عيادات ڤي دينتال",
     "blogs.hero.subtitle": "اكتشف أحدث العلاجات ونصائح صحة الفم والتقنيات من خبرائنا.",

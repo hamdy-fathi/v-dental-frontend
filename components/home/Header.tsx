@@ -21,6 +21,7 @@ type HomeHeaderProps = {
 const navItems = [
   { href: "/", label: "Home", translateKey: "nav.home" },
   { href: "/about", label: "About", translateKey: "nav.about" },
+  { href: "/before-after", label: "Before & After", translateKey: "nav.before_after" },
   { href: "/blogs", label: "Blogs", translateKey: "nav.blogs" },
 ];
 

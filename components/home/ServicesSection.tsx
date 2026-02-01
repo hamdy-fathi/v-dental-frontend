@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import TransitionLink from "@/components/TransitionLink";
 import { gsap } from "gsap";
 
 type ServicesSectionProps = {
@@ -19,6 +21,9 @@ export default function ServicesSection({
   afterImage,
 }: ServicesSectionProps) {
   const [split, setSplit] = useState(50);
+  const searchParams = useSearchParams();
+  const language = searchParams?.get("lang");
+  const beforeAfterHref = language ? `/before-after?lang=${language}` : "/before-after";
 
   useEffect(() => {
     const tweenState = { value: 20 };
@@ -37,7 +42,7 @@ export default function ServicesSection({
   }, []);
 
   return (
-    <section id="services" className="bg-[url('/images/background/bg3.webp')] bg-cover bg-center py-16">
+    <section id="services" className="bg-white py-16">
       <div className="container">
         <div className="max-w-2xl mx-auto text-center md:mx-0 md:text-left">
           <h2 className="text-3xl font-semibold text-[#2F3C2B] sm:text-4xl">{mainHeadline}</h2>
@@ -86,6 +91,15 @@ export default function ServicesSection({
               className="absolute inset-0 h-full w-full cursor-col-resize opacity-0"
             />
           </div>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <TransitionLink
+            href={beforeAfterHref}
+            className="rounded-full border border-[#5f724f] px-5 py-2 text-sm font-semibold uppercase tracking-[0.15em] text-[#5f724f] transition-colors hover:bg-[#5f724f] hover:text-white"
+            data-translate="before_after.view_gallery"
+          >
+            <span data-translate="before_after.view_gallery">View Before & After</span>
+          </TransitionLink>
         </div>
       </div>
     </section>

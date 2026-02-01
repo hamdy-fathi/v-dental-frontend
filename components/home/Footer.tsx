@@ -1,4 +1,8 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import { Facebook, Instagram } from "lucide-react";
+import TransitionLink from "@/components/TransitionLink";
 
 type HomeFooterProps = {
   storeDescription: string;
@@ -8,15 +12,24 @@ type HomeFooterProps = {
 
 export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl }: HomeFooterProps) {
   const currentYear = new Date().getFullYear();
+  const searchParams = useSearchParams();
+  const language = searchParams?.get("lang");
+
+  const withLanguage = (href: string) => {
+    if (!href.startsWith("/")) return href;
+    if (!language) return href;
+    const separator = href.includes("?") ? "&" : "?";
+    return `${href}${separator}lang=${language}`;
+  };
 
   return (
-    <footer className="bg-[#5f724f] bg-[url('/images/background/bg5.webp')] bg-cover bg-center py-12 text-white">
+    <footer className="bg-[#5f724f] py-12 text-white">
       <div className="container">
         <div className="grid gap-8 text-center md:grid-cols-[1.2fr_0.8fr_0.8fr] md:text-left">
           <div>
-            <a href="/" className="inline-flex items-center">
+            <TransitionLink href={withLanguage("/")} className="inline-flex items-center">
               <img src="/svg/logo-light.svg" alt="V Dental Clinics" width="150" height="60" className="h-12 w-auto" />
-            </a>
+            </TransitionLink>
             <p className="mt-4 text-sm text-white/80">
               <span className="font-semibold text-white">V Dental Clinics</span>{" "}
               <span data-translate="footer.tagline">{storeDescription}</span>
@@ -26,13 +39,18 @@ export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl
             <h4 className="text-sm font-semibold uppercase tracking-[0.15em] text-white">Quick Links</h4>
             <ul className="mt-4 space-y-2 list-none p-0 text-sm text-white/80">
               <li>
-                <a href="/" className="text-white/90 hover:text-white">Home</a>
+                <TransitionLink href={withLanguage("/")} className="text-white/90 hover:text-white">Home</TransitionLink>
               </li>
               <li>
-                <a href="/about" className="text-white/90 hover:text-white">About</a>
+                <TransitionLink href={withLanguage("/about")} className="text-white/90 hover:text-white">About</TransitionLink>
               </li>
               <li>
-                <a href="/blogs" className="text-white/90 hover:text-white">Blogs</a>
+                <TransitionLink href={withLanguage("/before-after")} className="text-white/90 hover:text-white" data-translate="nav.before_after">
+                  Before & After
+                </TransitionLink>
+              </li>
+              <li>
+                <TransitionLink href={withLanguage("/blogs")} className="text-white/90 hover:text-white">Blogs</TransitionLink>
               </li>
             </ul>
           </div>

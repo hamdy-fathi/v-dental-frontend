@@ -26,8 +26,11 @@ export default function WhyChooseSection({
 }: WhyChooseSectionProps) {
   const [openIndex, setOpenIndex] = useState(0);
   return (
-    <section id="why-choose" className="bg-[url('/images/background/bg4.webp')] bg-cover bg-center py-16 overflow-hidden">
-      <div className="container">
+    <section
+      id="why-choose"
+      className="py-16 bg-white"
+   
+    >      <div className="container">
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-[1fr_auto]">
       <div className="w-full text-center lg:text-left">
             <h2 className="mx-auto max-w-xl text-3xl font-semibold text-[#2F3C2B] sm:text-4xl lg:m-0">{mainHeadline}</h2>
