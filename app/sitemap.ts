@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 
+export const revalidate = 3600; // Revalidate every hour
+
 const BASE_URL = "https://www.vdentaleg.com";
 
 const BLOG_API_URL = "https://www.vdentaleg.com/api/v1/blog/front";
@@ -64,8 +66,7 @@ async function fetchAllCategories(): Promise<CategoryItem[]> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [blogs, categories] = await Promise.all([fetchAllBlogs(), fetchAllCategories()]);
-
+  // Always return at least the static routes, even if API calls fail
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
@@ -93,23 +94,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const blogRoutes: MetadataRoute.Sitemap = blogs
-    .filter((blog) => blog.slug)
-    .map((blog) => ({
-      url: `${BASE_URL}/blogs/${blog.slug}`,
-      lastModified: blog.updatedAt ? new Date(blog.updatedAt) : blog.createdAt ? new Date(blog.createdAt) : new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }));
+  // Fetch blogs and categories with error handling
+  let blogs: BlogItem[] = [];
+  let categories: CategoryItem[] = [];
 
-  const categoryRoutes: MetadataRoute.Sitemap = categories
-    .filter((category) => category.slug && category.categoryType === "blog")
-    .map((category) => ({
-      url: `${BASE_URL}/blogs/category/${category.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-    }));
+  try {
+    [blogs, categories] = await Promise.all([fetchAllBlogs(), fetchAllCategories()]);
+  } catch (error) {
+    // If API calls fail, continue with empty arrays
+    console.error("Error fetching sitemap data:", error);
+    blogs = [];
+    categories = [];
+  }
+
+  const blogRoutes: MetadataRoute.Sitemap =
+    blogs
+      ?.filter((blog) => blog?.slug && typeof blog.slug === "string")
+      .map((blog) => {
+        let lastModified = new Date();
+        try {
+          if (blog.updatedAt) {
+            lastModified = new Date(blog.updatedAt);
+          } else if (blog.createdAt) {
+            lastModified = new Date(blog.createdAt);
+          }
+        } catch (error) {
+          // Use current date if date parsing fails
+          lastModified = new Date();
+        }
+
+        return {
+          url: `${BASE_URL}/blogs/${blog.slug}`,
+          lastModified,
+          changeFrequency: "weekly" as const,
+          priority: 0.7,
+        };
+      }) ?? [];
+
+  const categoryRoutes: MetadataRoute.Sitemap =
+    categories
+      ?.filter((category) => category?.slug && typeof category.slug === "string" && category.categoryType === "blog")
+      .map((category) => ({
+        url: `${BASE_URL}/blogs/category/${category.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.6,
+      })) ?? [];
 
   // Add language variants for main pages
   const languageVariants: MetadataRoute.Sitemap = [
@@ -163,6 +193,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  return [...staticRoutes, ...blogRoutes, ...categoryRoutes, ...languageVariants];
+  // Combine all routes and ensure we always return valid data
+  const allRoutes = [...staticRoutes, ...blogRoutes, ...categoryRoutes, ...languageVariants];
+
+  // Validate URLs to ensure they're valid
+  const validRoutes = allRoutes.filter((route) => {
+    try {
+      new URL(route.url);
+      return true;
+    } catch {
+      return false;
+    }
+  });
+
+  return validRoutes;
 }
 
