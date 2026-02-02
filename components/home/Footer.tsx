@@ -36,7 +36,7 @@ export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl
   };
 
   return (
-    <footer className="bg-[#5f724f] py-12 text-white">
+    <footer className="bg-[#5f724f] py-12 text-white" dir="ltr">
       <div className="container">
         <div className="grid gap-8 text-center md:grid-cols-[1.2fr_0.8fr_0.8fr] md:text-left">
           <div>
@@ -44,8 +44,7 @@ export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl
               <img src="/svg/logo-light.svg" alt="V Dental Clinics" width="150" height="60" className="h-12 w-auto" />
             </TransitionLink>
             <p className="mt-4 text-sm text-white/80">
-              <span className="font-semibold text-white">V Dental Clinics</span>{" "}
-              <span data-translate="footer.tagline">{storeDescription}</span>
+              <span className="font-semibold text-white">V Dental Clinics</span> {storeDescription}
             </p>
           </div>
           <div>
@@ -58,7 +57,7 @@ export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl
                 <TransitionLink href={withLanguage("/about")} className="text-white/90 hover:text-white">About</TransitionLink>
               </li>
               <li>
-                <TransitionLink href={withLanguage("/before-after")} className="text-white/90 hover:text-white" data-translate="nav.before_after">
+                <TransitionLink href={withLanguage("/before-after")} className="text-white/90 hover:text-white">
                   Before & After
                 </TransitionLink>
               </li>
@@ -104,7 +103,7 @@ export default function HomeFooter({ storeDescription, instagramUrl, facebookUrl
           <p>
             © {currentYear} <span className="text-white">V Dental Clinics</span>
           </p>
-          <span data-translate="footer.copyright">All Rights Reserved.</span>
+          <span>All Rights Reserved.</span>
         </div>
       </div>
     </footer>
