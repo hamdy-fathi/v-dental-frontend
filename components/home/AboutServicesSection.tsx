@@ -51,14 +51,7 @@ export default function AboutServicesSection({
                 Experienced
               </div>
             </div>
-            <div className="absolute -right-4 bottom-8 hidden rounded-2xl bg-white/90 px-4 py-4 text-[#2F3C2B] shadow-md md:block">
-              <img className="mx-auto h-12 w-12" src="/svg/logo-gold.svg" alt="V Dental Clinics 2025" />
-              <div className="mt-3 text-sm font-semibold">V Dental Clinics 2025</div>
-              <p className="text-xs text-[#6C7A65]">Quality and Accreditation Institute</p>
-              <a href="#" className="text-xs text-[#5E6F4C] underline">
-                Best Dermatologists
-              </a>
-            </div>
+            
           </div>
         </div>
       </div>
