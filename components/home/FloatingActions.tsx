@@ -37,6 +37,7 @@ export default function FloatingActions({ phone }: FloatingActionsProps) {
           className="whatsapp-icon"
           aria-hidden="true"
           focusable="false"
+          style={{ display: "block", margin: "0 auto" }}
         >
           <path
             fill="currentColor"

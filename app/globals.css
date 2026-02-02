@@ -223,5 +223,5 @@ a:hover {
   height: 28px;
   color: currentColor;
   display: block;
-  transform: translate(-1px, -1px);
+  margin: 0 auto;
 }
