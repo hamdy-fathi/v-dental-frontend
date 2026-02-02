@@ -15,7 +15,6 @@ export default function AboutSection({ mainHeadline, description, mainClinicImag
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="relative flex justify-center">
             <img className="w-full max-w-[340px] rounded-3xl object-cover shadow-lg" src={mainClinicImage} alt="V-Dental Clinic" />
-            <img className="absolute -left-2 -bottom-2 hidden w-64 md:block" src="/svg/about-curve.svg" alt="" aria-hidden="true" />
           </div>
           <div className="text-center md:text-left">
             <h2 className="text-3xl font-semibold text-[#2F3C2B] sm:text-4xl">{mainHeadline}</h2>

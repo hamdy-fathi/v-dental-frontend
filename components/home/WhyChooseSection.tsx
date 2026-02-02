@@ -94,7 +94,6 @@ export default function WhyChooseSection({
               </div>
             </div>
             <img className="absolute -left-10 -top-6 hidden w-28 md:block" src="/images/bg-circle.svg" alt="v-Dental Clinic" />
-            <img className="absolute -bottom-6 -right-4 hidden w-20 md:block" src="/images/hero-banner/img4.webp" alt="v-Dental Clinic" />
           </div>
         </div>
       </div>
