@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "emergency dentist",
     "preventive dental care",
   ],
-  metadataBase: new URL("https://vdentalclinic.com"),
+  metadataBase: new URL("https://www.vdentaleg.com"),
   alternates: {
     canonical: "/",
   },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "V Dental Clinic - Professional Dental Care Services",
     description:
       "Experience exceptional dental care at V Dental Clinic. We offer comprehensive dental services including cleanings, cosmetic dentistry, implants, and emergency care. Schedule your appointment today for quality dental treatment.",
-    images: ["https://vdentalclinic.com/images/v-dental-clinic-social.jpg"],
+    images: ["https://www.vdentaleg.com/images/v-dental-clinic-social.jpg"],
     type: "website",
   },
   icons: {
