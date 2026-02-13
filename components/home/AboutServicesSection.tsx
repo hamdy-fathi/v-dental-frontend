@@ -1,5 +1,9 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import TransitionLink from "@/components/TransitionLink";
 
 type AboutServicesSectionProps = {
   aboutServices: string[];
@@ -14,6 +18,16 @@ export default function AboutServicesSection({
   doctorImage,
   experienceYears,
 }: AboutServicesSectionProps) {
+  const searchParams = useSearchParams();
+  const language = searchParams?.get("lang");
+
+  const withLanguage = (href: string) => {
+    if (!href.startsWith("/")) return href;
+    if (!language) return href;
+    const separator = href.includes("?") ? "&" : "?";
+    return `${href}${separator}lang=${language}`;
+  };
+
   return (
     <section id="about-services" className="bg-white py-16">
       <div className="container">
@@ -33,6 +47,16 @@ export default function AboutServicesSection({
                 </li>
               ))}
             </ul>
+            <p className="mt-6 text-sm text-[#6C7A65]" data-translate="section.about_services.blog_text">
+              To learn more about dental services and treatment options, please visit our blog.
+            </p>
+            <TransitionLink
+              href={withLanguage("/blogs")}
+              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#5E6F4C] hover:text-[#4E5E3F] transition-colors"
+            >
+              <span data-translate="section.about_services.visit_blog">Visit Blog</span>
+              <ArrowRight className="h-4 w-4" />
+            </TransitionLink>
             <Button asChild className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#5E6F4C] px-6 py-3 text-sm font-semibold text-white hover:bg-[#4E5E3F]">
               <a href={whatsappUrl}>
                 <span data-translate="button.appointment">Appointment</span>

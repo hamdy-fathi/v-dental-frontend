@@ -19,6 +19,8 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.copyright": "All Rights Reserved.",
     "section.best_dentist": "Best Dentist",
     "section.about_services": "About Services",
+    "section.about_services.blog_text": "To learn more about dental services and treatment options, please visit our blog.",
+    "section.about_services.visit_blog": "Visit Blog",
     "section.patient_testimonials": "What our patient say about us",
     "before_after.hero.tag": "Before & After",
     "before_after.hero.title": "Before & After Gallery",
@@ -64,6 +66,8 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.copyright": "جميع الحقوق محفوظة.",
     "section.best_dentist": "أفضل طبيب أسنان",
     "section.about_services": "حول الخدمات",
+    "section.about_services.blog_text": "لمعرفة المزيد عن خدمات طب الأسنان وخيارات العلاج، يرجى زيارة مدونتنا.",
+    "section.about_services.visit_blog": "زيارة المدونة",
     "section.patient_testimonials": "ماذا يقول زائرينا عنا",
     
     "before_after.hero.tag": "قبل وبعد",
