@@ -50,13 +50,15 @@ export default function AboutServicesSection({
             <p className="mt-6 text-sm text-[#6C7A65]" data-translate="section.about_services.blog_text">
               To learn more about dental services and treatment options, please visit our blog.
             </p>
-            <TransitionLink
-              href={withLanguage("/blogs")}
-              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#5E6F4C] hover:text-[#4E5E3F] transition-colors"
-            >
-              <span data-translate="section.about_services.visit_blog">Visit Blog</span>
-              <ArrowRight className="h-4 w-4" />
-            </TransitionLink>
+            <div className="mt-3 flex justify-center">
+              <TransitionLink
+                href={withLanguage("/blogs")}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#5E6F4C] hover:text-[#4E5E3F] transition-colors"
+              >
+                <span data-translate="section.about_services.visit_blog">Visit Blog</span>
+                <ArrowRight className="h-4 w-4" />
+              </TransitionLink>
+            </div>
             <Button asChild className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#5E6F4C] px-6 py-3 text-sm font-semibold text-white hover:bg-[#4E5E3F]">
               <a href={whatsappUrl}>
                 <span data-translate="button.appointment">Appointment</span>
