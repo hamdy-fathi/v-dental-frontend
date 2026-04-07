@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo, Poppins } from "next/font/google";
+import Script from "next/script";
 import { ViewTransitions } from "next-view-transitions";
 
 import "./globals.css";
@@ -64,6 +65,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-theme-color="skin-2" className={`${poppins.variable} ${cairo.variable}`}>
       <head />
       <body id="bg">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-11483906478" strategy="afterInteractive" />
+        <Script id="google-ads-gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-11483906478');
+          `}
+        </Script>
         <ViewTransitions>{children}</ViewTransitions>
       </body>
     </html>
