@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import TransitionLink from "@/components/TransitionLink";
+import TrackedWhatsAppLink from "@/components/TrackedWhatsAppLink";
 
 type AboutServicesSectionProps = {
   aboutServices: string[];
@@ -60,10 +61,10 @@ export default function AboutServicesSection({
               </TransitionLink>
             </div>
             <Button asChild className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#5E6F4C] px-6 py-3 text-sm font-semibold text-white hover:bg-[#4E5E3F]">
-              <a href={whatsappUrl}>
+              <TrackedWhatsAppLink href={whatsappUrl}>
                 <span data-translate="button.appointment">Appointment</span>
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </TrackedWhatsAppLink>
             </Button>
           </div>
           <div className="relative">

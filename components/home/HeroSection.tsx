@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import type { AvailableDoctor } from "./types";
 import { Button } from "@/components/ui/button";
+import TrackedWhatsAppLink from "@/components/TrackedWhatsAppLink";
 
 type HeroSectionProps = {
   heroHeadline: string;
@@ -120,9 +121,9 @@ export default function HeroSection({
                 asChild
                 className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#E5E7E0] bg-[#5E6F4C] shadow-sm hover:bg-[#5E6F4C]/80 hover:text-white"
               >
-                <a href={whatsappUrl}>
+                <TrackedWhatsAppLink href={whatsappUrl}>
                   <img src="/svg/icon-arrow-up-right.svg" alt="" width="24" height="24" aria-hidden="true" />
-                </a>
+                </TrackedWhatsAppLink>
               </Button>
             </div>
           </div>

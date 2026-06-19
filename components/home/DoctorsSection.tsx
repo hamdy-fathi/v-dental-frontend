@@ -13,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import TrackedWhatsAppLink from "@/components/TrackedWhatsAppLink";
 
 type DoctorsSectionProps = {
   title: string;
@@ -90,14 +91,12 @@ export default function DoctorsSection({
                     <div className="mt-5">
                       <h3 className="text-lg font-semibold text-[#2F3C2B]">{doctorName}</h3>
                       <p className="mt-1 text-sm text-[#C9A26A]">{doctor.short_description ?? ""}</p>
-                      <a
+                      <TrackedWhatsAppLink
                         href={whatsappLink}
-                        target="_blank"
-                        rel="noreferrer"
                         className="mt-4 inline-flex items-center justify-center rounded-full bg-[#5E6F4C] px-4 py-2 text-xs text-white font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-[#5E6F4C]/80 hover:text-white"
                       >
                         Book appointment
-                      </a>
+                      </TrackedWhatsAppLink>
                     </div>
                     <div className="mt-5 flex items-center justify-between border-t border-[#EEEDE6] pt-4 text-[#6C7A65]">
                       <div className="flex items-center gap-3">

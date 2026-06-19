@@ -3,6 +3,8 @@ import { Cairo, Poppins } from "next/font/google";
 import Script from "next/script";
 import { ViewTransitions } from "next-view-transitions";
 
+import { GOOGLE_ADS_CONVERSION } from "@/lib/gtag-conversions";
+
 import "./globals.css";
 
 const poppins = Poppins({
@@ -74,42 +76,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'AW-11483906478');
           `}
         </Script>
-        <Script id="google-ads-call-conversion" strategy="afterInteractive">
+        <Script id="google-ads-conversions" strategy="afterInteractive">
           {`
-            function gtag_report_conversion(url) {
+            function gtag_open_url(url) {
+              if (typeof(url) == 'undefined') return;
+              if (url.indexOf('tel:') === 0) {
+                var link = document.createElement('a');
+                link.href = url;
+                link.click();
+              } else {
+                window.open(url, '_blank', 'noopener,noreferrer');
+              }
+            }
+
+            function gtag_report_link_conversion(url, sendTo) {
               var callbackFired = false;
               var callback = function () {
                 callbackFired = true;
-                if (typeof(url) != 'undefined') {
-                  if (url.indexOf('tel:') === 0) {
-                    var link = document.createElement('a');
-                    link.href = url;
-                    link.click();
-                  } else {
-                    window.location = url;
-                  }
-                }
+                gtag_open_url(url);
               };
               gtag('event', 'conversion', {
-                'send_to': 'AW-11483906478/OPV9CMyi1sgbEK6D-uMq',
+                'send_to': sendTo,
                 'value': 1.0,
                 'currency': 'EGP',
                 'event_callback': callback
               });
               setTimeout(function () {
-                if (!callbackFired && typeof(url) != 'undefined') {
-                  if (url.indexOf('tel:') === 0) {
-                    var link = document.createElement('a');
-                    link.href = url;
-                    link.click();
-                  } else {
-                    window.location = url;
-                  }
-                }
+                if (!callbackFired) gtag_open_url(url);
               }, 1000);
               return false;
             }
+
+            function gtag_report_conversion(url) {
+              return gtag_report_link_conversion(url, '${GOOGLE_ADS_CONVERSION}');
+            }
+
+            function gtag_report_whatsapp_conversion(url) {
+              return gtag_report_link_conversion(url, '${GOOGLE_ADS_CONVERSION}');
+            }
+
             window.gtag_report_conversion = gtag_report_conversion;
+            window.gtag_report_whatsapp_conversion = gtag_report_whatsapp_conversion;
           `}
         </Script>
       </head>

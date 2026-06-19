@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FloatingActions, HomeFooter, HomeHeader } from "@/components/home";
 import LanguageClientInit from "@/components/LanguageClientInit";
 import TransitionLink from "@/components/TransitionLink";
+import TrackedWhatsAppLink from "@/components/TrackedWhatsAppLink";
 import { fetchUnifiedData, type Language } from "@/lib/unified-data";
 
 const BLOG_DETAIL_URL = "https://www.vdentaleg.com/api/v1/blog/by-slug";
@@ -206,12 +207,12 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
                     <p className="mt-3 text-sm text-[#6C7A65]" data-translate="blogs.sidebar.text">
                       Talk to our dental team and book your visit today.
                     </p>
-                    <a
+                    <TrackedWhatsAppLink
                       href={whatsappUrl}
                       className="mt-4 inline-flex items-center justify-center rounded-full bg-[#5f724f] px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
                     >
                       <span data-translate="blogs.sidebar.cta">Book on WhatsApp</span>
-                    </a>
+                    </TrackedWhatsAppLink>
                   </div>
 
                   {relatedBlogs.length > 0 && (

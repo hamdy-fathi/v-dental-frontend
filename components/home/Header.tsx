@@ -9,6 +9,7 @@ import type { Language } from "@/lib/unified-data";
 import { applyLanguage } from "@/lib/language-client";
 import TransitionLink from "@/components/TransitionLink";
 import { reportCallConversion } from "@/lib/gtag";
+import TrackedWhatsAppLink from "@/components/TrackedWhatsAppLink";
 
 type HomeHeaderProps = {
   phone: string;
@@ -293,9 +294,9 @@ export default function HomeHeader({
               className="w-full justify-center rounded-full bg-white px-5 text-[#5f724f] shadow-sm hover:bg-[#efe9d7]"
               asChild
             >
-              <a href={whatsappUrl} data-translate="button.appointment">
+              <TrackedWhatsAppLink href={whatsappUrl} data-translate="button.appointment">
                 Appointment
-              </a>
+              </TrackedWhatsAppLink>
             </Button>
           </div>
         </div>
@@ -490,9 +491,9 @@ export default function HomeHeader({
                   className="rounded-full bg-white px-5 text-[#5f724f] shadow-sm hover:bg-[#efe9d7]"
                   asChild
                 >
-                  <a href={whatsappUrl} data-translate="button.appointment">
+                  <TrackedWhatsAppLink href={whatsappUrl} data-translate="button.appointment">
                     Appointment
-                  </a>
+                  </TrackedWhatsAppLink>
                 </Button>
               </div>
             </nav>
