@@ -63,8 +63,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme-color="skin-2" className={`${poppins.variable} ${cairo.variable}`}>
-      <head />
-      <body id="bg">
+      <head>
         <Script src="https://www.googletagmanager.com/gtag/js?id=AW-11483906478" strategy="afterInteractive" />
         <Script id="google-ads-gtag-init" strategy="afterInteractive">
           {`
@@ -75,6 +74,46 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'AW-11483906478');
           `}
         </Script>
+        <Script id="google-ads-call-conversion" strategy="afterInteractive">
+          {`
+            function gtag_report_conversion(url) {
+              var callbackFired = false;
+              var callback = function () {
+                callbackFired = true;
+                if (typeof(url) != 'undefined') {
+                  if (url.indexOf('tel:') === 0) {
+                    var link = document.createElement('a');
+                    link.href = url;
+                    link.click();
+                  } else {
+                    window.location = url;
+                  }
+                }
+              };
+              gtag('event', 'conversion', {
+                'send_to': 'AW-11483906478/OPV9CMyi1sgbEK6D-uMq',
+                'value': 1.0,
+                'currency': 'EGP',
+                'event_callback': callback
+              });
+              setTimeout(function () {
+                if (!callbackFired && typeof(url) != 'undefined') {
+                  if (url.indexOf('tel:') === 0) {
+                    var link = document.createElement('a');
+                    link.href = url;
+                    link.click();
+                  } else {
+                    window.location = url;
+                  }
+                }
+              }, 1000);
+              return false;
+            }
+            window.gtag_report_conversion = gtag_report_conversion;
+          `}
+        </Script>
+      </head>
+      <body id="bg">
         <ViewTransitions>{children}</ViewTransitions>
       </body>
     </html>

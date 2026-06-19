@@ -277,7 +277,14 @@ export default function HomeHeader({
 
           <div className="space-y-3 border-t border-white/20 p-6">
             <Button variant="outline" size="sm" className="w-full justify-center border-white/40 text-white hover:bg-white/15" asChild>
-              <a href={`tel:+${phone}`} data-translate="button.call_now" onClick={() => reportCallConversion()}>
+              <a
+                href={`tel:+${phone}`}
+                data-translate="button.call_now"
+                onClick={(event) => {
+                  reportCallConversion(`tel:+${phone}`);
+                  event.preventDefault();
+                }}
+              >
                 Call Now
               </a>
             </Button>
@@ -467,7 +474,14 @@ export default function HomeHeader({
                   </button>
                 </div>
                 <Button variant="outline" size="sm" className="border-white/40 text-white hover:bg-white/15" asChild>
-                  <a href={`tel:+${phone}`} data-translate="button.call_now" onClick={() => reportCallConversion()}>
+                  <a
+                    href={`tel:+${phone}`}
+                    data-translate="button.call_now"
+                    onClick={(event) => {
+                      reportCallConversion(`tel:+${phone}`);
+                      event.preventDefault();
+                    }}
+                  >
                     Call Now
                   </a>
                 </Button>
