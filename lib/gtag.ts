@@ -1,8 +1,11 @@
-export function reportCallConversion(telUrl: string) {
-  if (typeof window.gtag_report_conversion === "function") {
-    window.gtag_report_conversion(telUrl);
-    return;
-  }
+const CALL_CONVERSION_ID = "AW-11483906478/OPV9CMyi1sgbEK6D-uMq";
 
-  window.location.href = telUrl;
+export function reportCallConversion() {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "conversion", {
+      send_to: CALL_CONVERSION_ID,
+      value: 1.0,
+      currency: "EGP",
+    });
+  }
 }

@@ -21,14 +21,7 @@ export default function FloatingActions({ phone }: FloatingActionsProps) {
       </Button>
 
       <Button asChild className="fixed bottom-20 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#5E6F4C] text-white shadow-lg hover:bg-[#5E6F4C]/80">
-        <a
-          href={`tel:+${phone}`}
-          aria-label="Call V Dental"
-          onClick={(event) => {
-            event.preventDefault();
-            reportCallConversion(`tel:+${phone}`);
-          }}
-        >
+        <a href={`tel:+${phone}`} aria-label="Call V Dental" onClick={() => reportCallConversion()}>
           <Phone className="h-5 w-5" />
         </a>
       </Button>

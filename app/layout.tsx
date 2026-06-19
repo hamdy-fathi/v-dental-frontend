@@ -70,26 +70,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
             gtag('js', new Date());
             gtag('config', 'AW-11483906478');
-          `}
-        </Script>
-        <Script id="google-ads-call-conversion" strategy="afterInteractive">
-          {`
-            function gtag_report_conversion(url) {
-              var callback = function () {
-                if (typeof(url) != 'undefined') {
-                  window.location = url;
-                }
-              };
-              gtag('event', 'conversion', {
-                'send_to': 'AW-11483906478/OPV9CMyi1sgbEK6D-uMq',
-                'value': 1.0,
-                'currency': 'EGP',
-                'event_callback': callback
-              });
-              return false;
-            }
           `}
         </Script>
         <ViewTransitions>{children}</ViewTransitions>
